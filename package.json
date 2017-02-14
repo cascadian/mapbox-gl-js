@@ -1,5 +1,5 @@
 {
-  "name": "mapbox-gl",
+  "name": "@cascadian/mapbox-gl",
   "description": "A WebGL interactive maps library",
   "version": "0.32.1",
   "main": "src/index.js",
@@ -14,6 +14,8 @@
   "dependencies": {
     "@mapbox/gl-matrix": "^0.0.1",
     "@mapbox/unitbezier": "^0.0.0",
+    "babel-cli": "^6.23.0",
+    "babel-preset-es2015": "^6.22.0",
     "brfs": "^1.4.0",
     "bubleify": "^0.7.0",
     "earcut": "^2.0.3",
@@ -40,6 +42,7 @@
     "@mapbox/mapbox-gl-rtl-text": "^0.1.0",
     "@mapbox/mapbox-gl-test-suite": "file:test/integration",
     "babel-eslint": "^7.0.0",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "benchmark": "~2.1.0",
     "browserify": "^14.0.0",
     "clipboard": "^1.5.12",
@@ -125,7 +128,12 @@
     "test-query": "node test/query.test.js",
     "test-flow": "flow .",
     "test-cov": "nyc --require=flow-remove-types/register --reporter=text-summary --reporter=lcov --cache run-s test-unit test-render test-query",
-    "prepublish": "in-publish && run-s build-dev build-min || not-in-publish",
-    "postinstall": "cd src/style-spec && yarn || npm install"
+    "prepublish": "in-publish && run-s babel || not-in-publish",
+    "postinstall": "cd src/style-spec && yarn || npm install",
+    "babel": "babel src -d lib --source-maps --ignore node_modules"
+  },
+  "babel": {
+    "presets": ["es2015"],
+    "plugins": ["transform-flow-strip-types"]
   }
 }
